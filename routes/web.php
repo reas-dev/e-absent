@@ -22,5 +22,3 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/logout', 'HomeController@logout');
-
-// tes 123
