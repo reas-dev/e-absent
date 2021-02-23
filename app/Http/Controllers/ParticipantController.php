@@ -14,6 +14,12 @@ class ParticipantController extends Controller
     }
 
     public function absent(Request $request){
+        $request->validate([
+            'nik' => 'required|size:16',
+            'longitude' => 'required',
+            'latitude' => 'required',
+        ]);
+
         $participant_check = Participant::where('nik', $request->nik)->first();
         if($participant_check == null){
             return redirect('/absent')->with('status', 'nik-not-found');
@@ -35,22 +41,32 @@ class ParticipantController extends Controller
             return redirect('/absent')->with('status', 'have-attend');
         }
 
-        $request->validate([
-            'nik' => 'required|size:16',
-            'longitude' => 'required',
-            'latitude' => 'required',
-        ]);
+        switch ($request->input('action')) {
+            case 'absent':
+                Attendance::create([
+                    'participant_id' => $participant_check->id,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                    'day' => $day,
+                    'month' => $month,
+                    'year' => $year,
+                    'status' => 1,
+                ]);
+                return redirect('/absent')->with('status', 'done');
+                break;
 
-        Attendance::create([
-            'participant_id' => $participant_check->id,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'day' => $day,
-            'month' => $month,
-            'year' => $year,
-            'status' => 0,
-        ]);
-
-        return redirect('/absent')->with('status', 'done');
+            case 'izin':
+                Attendance::create([
+                    'participant_id' => $participant_check->id,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                    'day' => $day,
+                    'month' => $month,
+                    'year' => $year,
+                    'status' => 2,
+                ]);
+                return redirect('/absent')->with('status', 'done');
+                break;
+        }
     }
 }

@@ -17,6 +17,7 @@ class CreateParticipantsTable extends Migration
             $table->id();
             $table->string('nik');
             $table->string('name');
+            $table->string('place');
             $table->softDeletes();
             $table->timestamps();
         });

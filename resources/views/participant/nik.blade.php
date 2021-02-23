@@ -29,8 +29,11 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" name="action" value="absent">
                                     {{ __('Absent') }}
+                                </button>
+                                <button type="submit" class="btn btn-primary" name="action" value="izin">
+                                    {{ __('Izin') }}
                                 </button>
                             </div>
                         </div>

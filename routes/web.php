@@ -25,3 +25,5 @@ Route::get('/logout', 'HomeController@logout');
 
 Route::get('/absent', 'ParticipantController@showAbsent');
 Route::post('/absent', 'ParticipantController@absent');
+
+Route::get('/admin', 'AdminController@show');

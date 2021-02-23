@@ -9,5 +9,6 @@ $factory->define(Participant::class, function (Faker $faker) {
     return [
         'nik' => $faker->unique()->numerify('################'),
         'name' => $faker->unique()->name,
+        'place' => $faker->randomElement(['Pemalang', 'Demak']),
     ];
 });
