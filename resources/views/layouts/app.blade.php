@@ -3,7 +3,10 @@
 <head>
     <title>E-Absent</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="andreasyulianto3@gmail.com">
+    <meta name="author" content="re">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -19,6 +22,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 </head>
 <body style="background-color: #dee9ff;">
     <div id="app">
@@ -77,5 +81,43 @@
             @yield('content')
         </main>
     </div>
+    <script src="{{ asset('js/sweetalert2.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script>
+            M.AutoInit()
+        </script>
+    @if (Session::has('status') && Session::get('status') == 'nik-not-found')
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            title: 'Ups!',
+            text: 'NIK tidak ditemukan',
+            showConfirmButton: false,
+            timer: 1200
+        })
+    </script>
+    @elseif (Session::has('status') && Session::get('status') == 'have-attend')
+    <script>
+        Swal.fire({
+            icon: 'info',
+            title: 'Sorry!',
+            text: 'Anda sudah Absen',
+            showConfirmButton: false,
+            timer: 1000
+        })
+    </script>
+    @elseif (Session::has('status') && Session::get('status') == 'done')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Yeay!',
+            text: 'Absen Tersimpan',
+            showConfirmButton: false,
+            timer: 1000
+        })
+    </script>
+    @endif
+    @yield('script')
 </body>
 </html>

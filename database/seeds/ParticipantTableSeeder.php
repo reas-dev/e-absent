@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Status;
+use App\Participant;
 
-class StatusesTableSeeder extends Seeder
+class ParticipantTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,6 @@ class StatusesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Status::class, 1)->create();
+        factory(Participant::class, 10)->create();
     }
 }
