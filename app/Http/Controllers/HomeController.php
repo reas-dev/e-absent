@@ -30,4 +30,5 @@ class HomeController extends Controller
         auth()->logout();
         return redirect('/');
     }
+    
 }
