@@ -1,86 +1,59 @@
-@extends('layouts.app')
+@extends('layouts.participant')
+@section('title')
+    Login
+@endsection
+
+@section('customStyle')
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/user_home.css') }}" />
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register Admin') }}</div>
+<div class="row h-100 mx-auto">
+    <div class="col my-auto h-100">
+        <div class="registration-form my-auto">
+        <form method="POST" action="{{ route('register') }}">
+        @csrf
+        @method('post')
+            <div class="form-icon">
+                <img src="{{ asset('img/logo_pkkp.png') }}" width="80" height="80">
+            </div>
+            <h3 class="text-center font-weight-bold my-4">ABSENSI PKKP 2021</h3>
+            <div class="form-group">
+                <input type="text" class="form-control item @error('name') is-invalid @enderror" id="name" placeholder="Name" name="name" value="{{ old('name') }}" autofocus required>
+                @error('name')
+                    <div class="invalid-feedback" role="alert">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control item @error('email') is-invalid @enderror" id="email" placeholder="Email" name="email" value="{{ old('email') }}" required>
+                @error('email')
+                    <div class="invalid-feedback" role="alert">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control item @error('password') is-invalid @enderror" id="password" placeholder="Password" name="password" value="{{ old('password') }}" required>
+                @error('password')
+                    <div class="invalid-feedback" role="alert">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control item" id="password-confirm" placeholder="Password Confirmation" name="password_confirmation" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control item" id="key-access" placeholder="Key Access" name="key-access" required>
+            </div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        <img src="{{ asset('img/logo_pkkp.png') }}" width="80" height="80" class="rounded mx-auto d-block mb-3">
-                        
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="key-access" class="col-md-4 col-form-label text-md-right">{{ __('Key Access') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="key-access" type="password" class="form-control" name="key-access" required autocomplete="new-key-access">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col text-center mt-3">
+                        <button type="submit" class="btn hadir">Register</button>
+                    </div>
                 </div>
             </div>
+            <div class="text-center mt-3">
+                <a class="" href="{{ url('/login') }}">Have account?</a>
+            </div>
+        </form>
         </div>
     </div>
 </div>

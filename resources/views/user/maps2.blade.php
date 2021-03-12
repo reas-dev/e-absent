@@ -18,6 +18,7 @@
       Location 2
     </button>
   </div>
+  <iframe src="https://maps.google.com/maps?q=-6.9848346999999995, 110.438137&z=15&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -30,7 +31,7 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12 modal_body_content">
-              <p>Some contents...</p>
+                <iframe src="https://maps.google.com/maps?q=-6.9848346999999995, 110.438137&z=15&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>
             </div>
           </div>
           <div class="row">
@@ -57,4 +58,4 @@
   <script src="{{ asset('js/script.js') }}"></script>
 </body>
 
-</html> 
+</html>

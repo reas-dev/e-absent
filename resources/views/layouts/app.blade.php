@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <title>E-Absent</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="andreasyulianto3@gmail.com">
     <meta name="author" content="re">
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'E-Absent') }}</title>
+    <!-- Favicon-->
+    <link rel="icon" href="{{ asset('img/pkkp_favicon.png') }}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{{ asset('img/pkkp_favicon.png') }}" type="image/x-icon" />
+
+
+    <title>@yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -23,13 +26,15 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body style="background-color: #dee9ff;">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar fixed-top navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('E-Absent', 'E-Absent') }}
+                <a class="navbar-brand" href="{{ url('/home') }}">
+                    <img src="{{ asset('img/pkkp_favicon.png') }}" alt="" class="img-fluid">
+                    {{ config('PKKP 2021', 'PKKP 2021') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -77,47 +82,8 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+        @yield('content')
     </div>
-    <script src="{{ asset('js/sweetalert2.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script>
-            M.AutoInit()
-        </script>
-    @if (Session::has('status') && Session::get('status') == 'nik-not-found')
-    <script>
-        Swal.fire({
-            icon: 'warning',
-            title: 'Ups!',
-            text: 'NIK tidak ditemukan',
-            showConfirmButton: false,
-            timer: 1200
-        })
-    </script>
-    @elseif (Session::has('status') && Session::get('status') == 'have-attend')
-    <script>
-        Swal.fire({
-            icon: 'info',
-            title: 'Sorry!',
-            text: 'Anda sudah Absen',
-            showConfirmButton: false,
-            timer: 1000
-        })
-    </script>
-    @elseif (Session::has('status') && Session::get('status') == 'done')
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Yeay!',
-            text: 'Absen Tersimpan',
-            showConfirmButton: false,
-            timer: 1000
-        })
-    </script>
-    @endif
     @yield('script')
 </body>
 </html>

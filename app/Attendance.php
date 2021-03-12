@@ -10,4 +10,9 @@ class Attendance extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function participant()
+    {
+        return $this->belongsTo('App\Participant', 'id');
+    }
 }

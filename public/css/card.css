@@ -1,0 +1,52 @@
+.min-vh-80 {
+    min-height: 80vh;
+}
+
+.min-vh-40 {
+    min-height: 300px;
+}
+
+
+.bg-wave-head {
+    background-image: url("/svg/header-bg-landscape.svg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.bg-wave-foot {
+    background-image: url("/svg/footer-bg-landscape.svg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.bg-wave-photo {
+    background-image: url("/svg/photo-bg.svg");
+    background-position: -1px 0px;
+    padding: 3px;
+    background-repeat: no-repeat;
+}
+
+.bg-nametag {
+    background-color: #4f84ec;
+    padding: 2px 5px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+.bg-ipk-text {
+    background-color: #7e4fec;
+    padding: 2px 20px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+.bg-ipk {
+    background-color: #7e4fec;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 50%;
+}

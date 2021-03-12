@@ -15,9 +15,11 @@ class CreateParticipantsTable extends Migration
     {
         Schema::create('participants', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
             $table->string('nik');
             $table->string('name');
             $table->string('place');
+            $table->string('code');
             $table->softDeletes();
             $table->timestamps();
         });

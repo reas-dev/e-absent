@@ -19,14 +19,51 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/logout', 'HomeController@logout');
+Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/user', 'UserController@index');
-Route::get('/user/login', 'UserController@login');
-Route::get('/maps2', 'UserController@showmaps2');
-Route::get('/absent', 'ParticipantController@showAbsent');
-Route::post('/absent', 'ParticipantController@absent');
+Route::group(['middleware' => ['auth','participant'], 'prefix' => 'participant'], function(){
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::prefix('absent')->group(function(){
+        Route::get('/', 'ParticipantController@showAbsent');
+        Route::post('/', 'ParticipantController@absent');
+        Route::get('/detail', 'ParticipantController@showParticipantDetail');
+    });
+    Route::prefix('product')->group(function(){
+        Route::get('/', 'ProductController@show');
+        Route::post('/', 'ProductController@create');
+        Route::put('/', 'ProductController@edit');
+        Route::get('/edit', 'ProductController@showEdit');
+        Route::get('/detail', 'ParticipantController@showParticipantDetail');
+    });
+});
 
-Route::get('/admin', 'AdminController@show');
+Route::group(['middleware' => ['auth','admin'], 'prefix' => 'admin'], function(){
+    Route::get('/', 'AdminController@show');
+    Route::get('/total', 'AdminController@showAllAttend');
+
+    Route::get('/map/{place}', 'AdminController@showMapWithSamePlace');
+    Route::get('/detail/{month}/{year}/{nik}', 'AdminController@showAdminParticipantDetail');
+
+    Route::prefix('setting')->group(function () {
+        Route::get('/attend-time', 'AdminController@showAttendTimeSet');
+        Route::post('/attend-time', 'AdminController@attendTimeSet');
+        Route::get('/late-time', 'AdminController@showLateTimeSet');
+        Route::post('/late-time', 'AdminController@lateTimeSet');
+        Route::post('/uninvalid/{id}', 'AdminController@uninvalid');
+        Route::post('/invalid/{id}', 'AdminController@invalid');
+    });
+});
+
+
+Route::get('/tes', function(){
+    return view('tes');
+});
+Route::post('/tes', 'ParticipantController@tes');
+
+
+
+
+
+

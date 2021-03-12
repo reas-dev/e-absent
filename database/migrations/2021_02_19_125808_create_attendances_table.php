@@ -16,12 +16,14 @@ class CreateAttendancesTable extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->integer('participant_id');
+            $table->string('ip_address');
             $table->string('latitude');
             $table->string('longitude');
             $table->integer('day');
             $table->integer('month');
             $table->integer('year');
             $table->integer('status');
+            $table->integer('last_status')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
