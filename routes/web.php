@@ -23,23 +23,27 @@ Auth::routes();
 Route::get('/logout', 'HomeController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => ['auth','participant'], 'prefix' => 'participant'], function(){
+Route::group(['middleware' => ['auth', 'participant'], 'prefix' => 'participant'], function () {
     Route::get('/', 'HomeController@index')->name('home');
-    Route::prefix('absent')->group(function(){
+    Route::prefix('absent')->group(function () {
         Route::get('/', 'ParticipantController@showAbsent');
         Route::post('/', 'ParticipantController@absent');
         Route::get('/detail', 'ParticipantController@showParticipantDetail');
     });
-    Route::prefix('product')->group(function(){
+    Route::prefix('product')->group(function () {
         Route::get('/', 'ProductController@show');
         Route::post('/', 'ProductController@create');
         Route::put('/', 'ProductController@edit');
         Route::get('/edit', 'ProductController@showEdit');
         Route::get('/detail', 'ParticipantController@showParticipantDetail');
     });
+    Route::prefix('report')->group(function () {
+        Route::get('/', 'ReportController@index');
+        Route::post('/', 'ReportController@store');
+    });
 });
 
-Route::group(['middleware' => ['auth','admin'], 'prefix' => 'admin'], function(){
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('/', 'AdminController@show');
     Route::get('/total', 'AdminController@showAllAttend');
 
@@ -57,13 +61,7 @@ Route::group(['middleware' => ['auth','admin'], 'prefix' => 'admin'], function()
 });
 
 
-Route::get('/tes', function(){
+Route::get('/tes', function () {
     return view('tes');
 });
 Route::post('/tes', 'ParticipantController@tes');
-
-
-
-
-
-
