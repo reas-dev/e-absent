@@ -99,6 +99,7 @@
                                 <tr>
                                     <th style="width:1px;">No</th>
                                     <th>Nama (NIK)</th>
+                                    <th>Kode</th>
                                     <th>Kab. Penugasan</th>
                                     <th>Kehadiran</th>
                                     <th>Izin</th>
@@ -122,6 +123,7 @@
                                             <div>{{ $participant->name }}</div>
                                             <div>{{ $participant->nik }}</div>
                                         </td>
+                                        <td>{{ $participant->code }}</td>
                                         <td>{{ $participant->place }}</td>
                                         <td>{{ $participant->attend }}/{{ $total_day }}</td>
                                         <td>{{ $participant->permit }}</td>

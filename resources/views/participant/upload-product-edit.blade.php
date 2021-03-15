@@ -124,9 +124,10 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="row">
-                                            <div class="col text-center mt-3">
+                                        <div class="row mt-3">
+                                            <div class="col text-center">
                                                 <button type="submit" class="btn izin">Edit</button>
+                                                <a href="{{ url('/home') }}" class="btn hadir bg-secondary">Kembali</a>
                                             </div>
                                         </div>
                                     </div>
@@ -147,6 +148,17 @@
 @endsection
 
 @section('script')
+    @if (Session::has('status') && Session::get('status') == 'product-edit-done')
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Selamat!',
+            text: 'Berhasil memperbarui produk.',
+            showConfirmButton: false,
+            timer: 1000
+        })
+    </script>
+    @endif
 <script>
     $('#image').on('change',function(){
         //get the file name

@@ -73,9 +73,10 @@
             </div>
 
             <div class="form-group">
-                <div class="row">
-                    <div class="col text-center mt-3">
+                <div class="row mt-3">
+                    <div class="col text-center">
                         <button type="submit" class="btn hadir">Upload</button>
+                        <a href="{{ url('/home') }}" class="btn hadir bg-secondary">Kembali</a>
                     </div>
                 </div>
             </div>

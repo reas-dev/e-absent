@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
 use App\Attendance;
 use App\TimeStatus;
 use App\Participant;
+use App\Report;
 use App\User;
+
+use ZipArchive;
+use Madnest\Madzipper\Madzipper;
 
 class AdminController extends Controller
 {
@@ -321,6 +327,63 @@ class AdminController extends Controller
     }
 
     public function showReport(){
+        $participants = Participant::with('user')->with('reports')->get();
+        $i = 0;
+        foreach ($participants as $participant) {
+            if ($reports_count = $participant->reports()->count() != null) {
+                $i += 1;
+            }
+        }
 
+        $participants->hasReport = $i;
+
+        return view('admin.report.index')->with(compact(['participants']));
+    }
+
+    public function showReportDetail($nik){
+        $participant = Participant::with('user')->with('reports')->where('nik', $nik)->first();
+
+        return view('admin.report.detail')->with(compact(['participant']));
+    }
+
+    public function reportDownload($nik, $id){
+        $participant = Participant::select(['id','code'])->where('nik', $nik)->first();
+        $report = Report::where('participant_id', $participant->id)->where('id', $id)->first();
+        if ($report == null){
+            return redirect()->back();
+        }
+
+        $code = str_replace("/", "_", $participant->code);
+        $tujuan_download = 'data_file/report/'.$code;
+        $file = public_path().'/'.$tujuan_download.'/'.$report->file;
+        $headers = array('Content-Type: application/pdf',);
+        return Response::download($file, $report->file, $headers);
+    }
+
+    public function reportDownloadAllOnePerson($nik){
+        $participant = Participant::select(['id','code'])->where('nik', $nik)->first();
+        if($participant->reports->isEmpty()){
+            return redirect('/admin/report/'.$nik);
+        }
+        $code = str_replace("/", "_", $participant->code);
+        $tujuan_download = 'data_file/report/'.$code;
+        $tujuan = public_path().'/'.$tujuan_download;
+
+        $files = glob($tujuan.'/*');
+        $zip = new Madzipper;
+        $zip->make(public_path($code.'.zip'))->add($files)->close();
+
+        return response::download(public_path($code.'.zip'));
+    }
+
+    public function reportDownloadAll(){
+        $tujuan_download = 'data_file/report/';
+        $tujuan = public_path().'/'.$tujuan_download;
+
+        $files = glob($tujuan.'/*');
+        $zip = new Madzipper;
+        $zip->make(public_path('laporan pkkp 2021.zip'))->add($files)->close();
+
+        return response::download(public_path('laporan pkkp 2021.zip'));
     }
 }

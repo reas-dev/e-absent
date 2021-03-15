@@ -24,8 +24,13 @@ class ParticipantController extends Controller
             'longitude' => 'required',
             'latitude' => 'required',
         ]);
+
         $geoip = new GeoIPLocation();
         $myIp = $geoip->getIP();
+
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+
         $id = Auth::user()->id;
         $participant_check = Participant::where('user_id', $id)->first();
         if($participant_check == null){
@@ -61,15 +66,14 @@ class ParticipantController extends Controller
             return redirect('/participant/absent')->with('status', 'not-open')->with(compact('attend_time'));
         }
 
-
         switch ($request->input('action')) {
             case 'absent':
                 if ($time_now <= $late_time){
                     Attendance::create([
                         'participant_id' => $participant_check->id,
                         'ip_address' => $myIp,
-                        'latitude' => $request->latitude,
-                        'longitude' => $request->longitude,
+                        'latitude' => $latitude,
+                        'longitude' => $longitude,
                         'day' => $day,
                         'month' => $month,
                         'year' => $year,
@@ -80,8 +84,8 @@ class ParticipantController extends Controller
                     Attendance::create([
                         'participant_id' => $participant_check->id,
                         'ip_address' => $myIp,
-                        'latitude' => $request->latitude,
-                        'longitude' => $request->longitude,
+                        'latitude' => $latitude,
+                        'longitude' => $longitude,
                         'day' => $day,
                         'month' => $month,
                         'year' => $year,
@@ -96,8 +100,8 @@ class ParticipantController extends Controller
                     Attendance::create([
                         'participant_id' => $participant_check->id,
                         'ip_address' => $myIp,
-                        'latitude' => $request->latitude,
-                        'longitude' => $request->longitude,
+                        'latitude' => $latitude,
+                        'longitude' => $longitude,
                         'day' => $day,
                         'month' => $month,
                         'year' => $year,
@@ -108,8 +112,8 @@ class ParticipantController extends Controller
                     Attendance::create([
                         'participant_id' => $participant_check->id,
                         'ip_address' => $myIp,
-                        'latitude' => $request->latitude,
-                        'longitude' => $request->longitude,
+                        'latitude' => $latitude,
+                        'longitude' => $longitude,
                         'day' => $day,
                         'month' => $month,
                         'year' => $year,

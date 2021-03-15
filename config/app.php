@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Victorybiz\GeoIPLocation\GeoIPLocationServiceProvider::class,
+        Madnest\Madzipper\MadzipperServiceProvider::class,
 
     ],
 
@@ -228,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'GeoIPLocation' => Victorybiz\GeoIPLocation\Facades\GeoIPLocationFacade::class,
+        'Madzipper' => Madnest\Madzipper\Madzipper::class
 
     ],
 

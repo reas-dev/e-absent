@@ -98,6 +98,7 @@
                                 <tr>
                                     <th style="width:1px;">No</th>
                                     <th>Nama (NIK)</th>
+                                    <th>Kode</th>
                                     <th>Kab. Penugasan</th>
                                     <th>Status</th>
                                     <th class="text-center">Action Button</th>
@@ -118,6 +119,7 @@
                                             <a href="{{ url('admin/detail/'.$month.'/'.$year.'/'.$participant->nik) }}" class="text-muted"><div>{{ $participant->name }}</div>
                                                 <div>{{ $participant->nik }}</div></a>
                                         </td>
+                                        <td>{{ $participant->code }}</td>
                                         <td>{{ $participant->place }}</td>
                                         @if ($participant->status == 0 && !is_null($participant->status))
                                             <td><p class="badge badge-danger">invalid absen</p></td>

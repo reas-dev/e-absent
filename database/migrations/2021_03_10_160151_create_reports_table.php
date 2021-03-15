@@ -17,6 +17,7 @@ class CreateReportsTable extends Migration
             $table->id();
             $table->integer('participant_id');
             $table->string('file');
+            $table->string('month');
             $table->softDeletes();
             $table->timestamps();
         });
