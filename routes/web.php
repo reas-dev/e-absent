@@ -40,8 +40,14 @@ Route::group(['middleware' => ['auth','participant'], 'prefix' => 'participant']
 });
 
 Route::group(['middleware' => ['auth','admin'], 'prefix' => 'admin'], function(){
-    Route::get('/', 'AdminController@show');
+    Route::get('/daily', 'AdminController@show');
     Route::get('/total', 'AdminController@showAllAttend');
+
+
+    Route::get('/', 'AdminController@showList');
+    Route::get('/product', 'AdminController@showProduct');
+    Route::get('/report', 'AdminController@showReport');
+
 
     Route::get('/map/{place}', 'AdminController@showMapWithSamePlace');
     Route::get('/detail/{month}/{year}/{nik}', 'AdminController@showAdminParticipantDetail');

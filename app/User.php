@@ -38,4 +38,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+        /**
+     * Get the participant for the blog post.
+     */
+    public function participant()
+    {
+        return $this->hasOne('App\Participant', 'participant_id');
+    }
 }

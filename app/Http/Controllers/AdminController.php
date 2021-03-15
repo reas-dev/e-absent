@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Attendance;
 use App\TimeStatus;
 use App\Participant;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -45,7 +46,7 @@ class AdminController extends Controller
 
         $places = Participant::groupBy('place')->pluck('place');
 
-        return view('admin.index')->with(compact(['participants', 'places', 'attendances_count', 'permits_count', 'lates_count', 'invalids_count','day','month','year']));
+        return view('admin.absent.index')->with(compact(['participants', 'places', 'attendances_count', 'permits_count', 'lates_count', 'invalids_count','day','month','year']));
     }
 
     // Attend Time Settings
@@ -130,7 +131,7 @@ class AdminController extends Controller
             'last_status' => $attendance->status,
             'status' => 0,
         ]);
-        return redirect('/admin');
+        return redirect('/admin/daily');
     }
 
     public function uninvalid($id){
@@ -142,7 +143,7 @@ class AdminController extends Controller
             'status' => $attendance->last_status,
             'last_status' => null,
         ]);
-        return redirect('/admin');
+        return redirect('/admin/daily');
     }
 
     public function showMapWithSamePlace($place){
@@ -179,7 +180,7 @@ class AdminController extends Controller
 
         $places = Participant::groupBy('place')->pluck('place');
 
-        return view('admin.map-region')->with(compact(['participants', 'places']));
+        return view('admin.absent.map-region')->with(compact(['participants', 'places']));
     }
 
     public function showAllAttend(){
@@ -217,7 +218,7 @@ class AdminController extends Controller
 
         $places = Participant::groupBy('place')->pluck('place');
 
-        return view('admin.list-all')->with(compact(['total_day', 'participants', 'places']));
+        return view('admin.absent.total')->with(compact(['total_day', 'participants', 'places']));
     }
 
     private function getWorkdays($date1, $date2, $workSat = FALSE, $patron = NULL) {
@@ -295,6 +296,31 @@ class AdminController extends Controller
         $target_year = $year;
 
         // dd($attendances);
-        return view('admin.calendar')->with(compact(['participant', 'last_day', 'attendances', 'attends_count', 'permits_count', 'lates_count', 'invalids_count', 'target_year', 'target_month']));
+        return view('admin.absent.calendar')->with(compact(['participant', 'last_day', 'attendances', 'attends_count', 'permits_count', 'lates_count', 'invalids_count', 'target_year', 'target_month']));
+    }
+
+    public function showList(){
+        $participants = Participant::with('user')->get();
+
+        return view('admin.index')->with(compact(['participants']));
+    }
+
+    public function showProduct(){
+        $participants = Participant::with('product')->get();
+        $i = 0;
+        foreach ($participants as $participant) {
+            if ($participant->product != null) {
+                $i += 1;
+            }
+        }
+
+        $participants->hasProduct = $i;
+
+        return view('admin.product.index')->with(compact(['participants']));
+
+    }
+
+    public function showReport(){
+
     }
 }

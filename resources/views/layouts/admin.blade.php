@@ -37,9 +37,38 @@
             <div class="sidebar-brand-icon">
                 <img src="{{ asset('img/logo_pkkp.png') }}" alt="" class="img-fluid p-3">
             </div>
-            <div class="sidebar-brand-text mx-3">ABSENSI PKKP 2021</sup></div>
+            <div class="sidebar-brand-text mx-3">PKKP 2021</sup></div>
         </a>
-
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin')}}">
+            <i class="fas fa-fw fa-list-alt"></i>
+            <span>Cek Peserta</span></a>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Produk
+        </div>
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin/product')}}">
+            <i class="fas fa-fw fa-tags"></i>
+            <span>Cek Produk</span></a>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Laporan
+        </div>
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin/report')}}">
+            <i class="fas fa-fw fa-file"></i>
+            <span>Cek Laporan</span></a>
+        </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
         <!-- Heading -->
@@ -48,7 +77,7 @@
         </div>
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/admin')}}">
+            <a class="nav-link" href="{{ url('/admin/daily')}}">
             <i class="fas fa-fw fa-check-circle"></i>
             <span>Harian</span></a>
         </li>

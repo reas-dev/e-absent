@@ -32,6 +32,12 @@ class Participant extends Model
      */
     public function product()
     {
-        return $this->hasMany('App\Product', 'participant_id');
+        return $this->hasOne('App\Product', 'participant_id');
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 }

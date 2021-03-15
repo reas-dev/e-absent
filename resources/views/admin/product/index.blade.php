@@ -11,7 +11,7 @@
 <div class="row">
 
     <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-6 col-md-6 mb-4">
+    <div class="col-xl-4 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -21,12 +21,48 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $participants->count() }}</div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-info-circle fa-2x text-primary"></i>
+                        <i class="fas fa-exclamation-circle fa-2x text-primary"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Total Produk</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $participants->hasProduct }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-check-circle fa-2x text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                Total Belum Ada Produk</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $participants->count() - $participants->hasProduct }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-times-circle fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 </div>
 
@@ -45,9 +81,9 @@
                                 <tr>
                                     <th style="width:1px;">No</th>
                                     <th>Nama (NIK)</th>
-                                    <th>Email</th>
                                     <th>Kode</th>
-                                    <th>Kab. Penugasan</th>
+                                    <th>Nama Produk</th>
+                                    <th>URL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,16 +95,28 @@
                                 @php
                                     $i++;
                                 @endphp
+                                    @if ($participant->product != null)
                                     <tr>
                                         <td>{{ $i }}</td>
                                         <td>
                                             <div>{{ $participant->name }}</div>
                                             <div>{{ $participant->nik }}</div>
                                         </td>
-                                        <td>{{ $participant->user->email }}</td>
                                         <td>{{ $participant->code }}</td>
-                                        <td>{{ $participant->place }}</td>
+                                        <td>{{ $participant->product->name }}</td>
+                                        <td>{{ $participant->product->url }}</td>
                                     </tr>
+                                    @else
+                                    <tr style="background-color: #f77e88; color: black;">
+                                        <td>{{ $i }}</td>
+                                        <td>
+                                            <div>{{ $participant->name }}</div>
+                                            <div>{{ $participant->nik }}</div>
+                                        </td>
+                                        <td>{{ $participant->code }}</td>
+                                        <td colspan='2' class="text-center">Belum ada produk</td>
+                                    </tr>
+                                    @endif
                                 @endforeach
                             @else
                                 <tr><td align='center' colspan='4'>Data Tidak Ada</td></tr>
