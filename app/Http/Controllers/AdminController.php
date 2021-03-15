@@ -301,7 +301,6 @@ class AdminController extends Controller
         $target_month = $date->translatedFormat('F');
         $target_year = $year;
 
-        // dd($attendances);
         return view('admin.absent.calendar')->with(compact(['participant', 'last_day', 'attendances', 'attends_count', 'permits_count', 'lates_count', 'invalids_count', 'target_year', 'target_month']));
     }
 
@@ -353,6 +352,9 @@ class AdminController extends Controller
             return redirect()->back();
         }
 
+        /**
+            NEED CHANGE TO STORAGE LINK
+         */
         $code = str_replace("/", "_", $participant->code);
         $tujuan_download = 'data_file/report/'.$code;
         $file = public_path().'/'.$tujuan_download.'/'.$report->file;
@@ -369,6 +371,9 @@ class AdminController extends Controller
         $tujuan_download = 'data_file/report/'.$code;
         $tujuan = public_path().'/'.$tujuan_download;
 
+        /**
+            NEED CHANGE TO STORAGE LINK
+         */
         $files = glob($tujuan.'/*');
         $zip = new Madzipper;
         $zip->make(public_path($code.'.zip'))->add($files)->close();
@@ -380,6 +385,9 @@ class AdminController extends Controller
         $tujuan_download = 'data_file/report/';
         $tujuan = public_path().'/'.$tujuan_download;
 
+        /**
+            NEED CHANGE TO STORAGE LINK
+         */
         $files = glob($tujuan.'/*');
         $zip = new Madzipper;
         $zip->make(public_path('laporan pkkp 2021.zip'))->add($files)->close();

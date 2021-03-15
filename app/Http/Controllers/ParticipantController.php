@@ -20,7 +20,6 @@ class ParticipantController extends Controller
 
     public function absent(Request $request){
         $request->validate([
-            // 'nik' => 'required|size:16',
             'longitude' => 'required',
             'latitude' => 'required',
         ]);
@@ -51,9 +50,6 @@ class ParticipantController extends Controller
             return redirect('/participant/absent')->with('status', 'no-weekday');
         }
 
-        // $last_day = $date_now->endOfMonth()->format('d');
-        // $last_day = ltrim($last_day, '0');
-
         $attendance_check = Attendance::where('participant_id', $participant_check->id)->where('day', $day)->where('month', $month)->where('year', $year)->first();
         if($attendance_check != null){
             return redirect('/participant/absent')->with('status', 'have-attend');
@@ -62,6 +58,18 @@ class ParticipantController extends Controller
         $late_time = $time_set->late;
         $attend_time = $time_set->attend;
         $time_now = $date_now->format('H:i:s');
+
+        $date_now_format = $date_now->format('Y-m-d');
+
+        /**
+            NEED CHANGE ATTENDANCE START DATE
+         */
+        $date_last = '2020-07-04';
+
+        if ($date_now_format < $date_last){
+            return redirect('/participant/absent')->with('status', 'not-open')->with(compact('attend_time'));
+        }
+
         if ($time_now < $attend_time){
             return redirect('/participant/absent')->with('status', 'not-open')->with(compact('attend_time'));
         }
@@ -125,9 +133,6 @@ class ParticipantController extends Controller
         }
     }
 
-
-        // $attendance = Attendance::orderBy('year', 'ASC')->orderBy('month', 'ASC')->orderBy('day', 'ASC')->select('id', 'participant_id', 'day', 'month', 'year', 'status')->where('participant_id', $participant->id)->get();
-
     public function showParticipantDetail(){
         $id = Auth::user()->id;
         $participant = Participant::where('user_id', $id)->first();
@@ -174,7 +179,6 @@ class ParticipantController extends Controller
         $target_month = $date->translatedFormat('F');
         $target_year = $year;
 
-        // dd($attendances);
         return view('participant.calendar')->with(compact(['participant', 'last_day', 'attendances', 'attends_count', 'permits_count', 'lates_count', 'invalids_count', 'target_year', 'target_month']));
     }
 
