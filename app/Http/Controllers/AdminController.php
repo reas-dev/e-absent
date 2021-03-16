@@ -193,7 +193,9 @@ class AdminController extends Controller
         $date_now = Carbon::now()->format('Y-m-d');
 
 
-        //--------------------------ganti tanggal mulai absen----------------------//
+        /**
+            NEED CHANGE ATTENDANCE START DATE
+         */
         $date_last = '2020-07-04';
 
         $participants = Participant::all();

@@ -30,6 +30,9 @@ class ParticipantController extends Controller
         $latitude = $request->latitude;
         $longitude = $request->longitude;
 
+        // $latitude = $geoip->getLatitude();
+        // $longitude = $geoip->getLongitude();
+
         $id = Auth::user()->id;
         $participant_check = Participant::where('user_id', $id)->first();
         if($participant_check == null){
