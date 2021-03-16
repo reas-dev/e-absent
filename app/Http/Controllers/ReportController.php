@@ -81,7 +81,7 @@ class ReportController extends Controller
 
         $inputed = Report::where('participant_id', '=', $participant->id)->where('month', '=', $month_target)->first();
 
-        if ($inputed != null){
+        if ($inputed != null) {
             return redirect('/participant/report')->with('status', 'has-report');
         }
 
