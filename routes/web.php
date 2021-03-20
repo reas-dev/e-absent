@@ -23,6 +23,12 @@ Auth::routes();
 Route::get('/logout', 'HomeController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/view_product', 'PublicController@index');
+Route::get('/view_product/category/{category}', 'PublicController@index_category');
+Route::get('/view_product/location/{location}', 'PublicController@index_location');
+Route::get('/view_product/{id}', 'PublicController@show');
+Route::get('/external_url/{url}', 'PublicController@external_url');
+
 Route::group(['middleware' => ['auth', 'participant'], 'prefix' => 'participant'], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::prefix('absent')->group(function () {
@@ -43,7 +49,7 @@ Route::group(['middleware' => ['auth', 'participant'], 'prefix' => 'participant'
     });
 });
 
-Route::group(['middleware' => ['auth','admin'], 'prefix' => 'admin'], function(){
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('/daily', 'AdminController@show');
     Route::get('/total', 'AdminController@showAllAttend');
 
