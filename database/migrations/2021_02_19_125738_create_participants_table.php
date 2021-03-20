@@ -20,6 +20,7 @@ class CreateParticipantsTable extends Migration
             $table->string('name');
             $table->string('place');
             $table->string('code');
+            $table->string('phone');
             $table->softDeletes();
             $table->timestamps();
         });

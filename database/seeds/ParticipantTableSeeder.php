@@ -22,6 +22,7 @@ class ParticipantTableSeeder extends Seeder
             $code = "PKKP2021/".$faker->unique()->numerify('####');
             $password = Hash::make($code);
             $role = "participant";
+            $phone = $faker->unique()->numerify('################');
             $place = $faker->randomElement(['Pemalang', 'Demak']);
 
             $user = User::create([
@@ -35,7 +36,8 @@ class ParticipantTableSeeder extends Seeder
                 'nik' => $nik,
                 'name' => $name,
                 'place' => $place,
-                'code' => $code
+                'code' => $code,
+                'phone' => $phone
             ]);
         }
     }

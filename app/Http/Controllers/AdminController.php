@@ -396,4 +396,16 @@ class AdminController extends Controller
 
         return response::download(public_path('laporan pkkp 2021.zip'));
     }
+
+    //destroy
+    function reportDelete($nik, $id){
+        $participant = Participant::select(['id','code'])->where('nik', $nik)->first();
+        $report = Report::where('participant_id', $participant->id)->where('id', $id)->first();
+        if ($report == null){
+            return redirect()->back();
+        }
+
+        Report::destroy($report->id);
+        return redirect()->back()->with('status', 'Data Berhasil Dihapus');
+    }
 }
