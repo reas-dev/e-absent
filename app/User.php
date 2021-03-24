@@ -46,4 +46,13 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Participant', 'participant_id');
     }
+
+    public function isAdmin()
+    {
+        return $this->role == 'sensei_001';
+    }
+    public function isAuth()
+    {
+        return $this->role != null;
+    }
 }

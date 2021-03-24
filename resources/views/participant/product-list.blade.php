@@ -1,17 +1,17 @@
-@extends('layouts.public')
+@extends('layouts.participant')
 @section('title')
-Produk PKKP
+    Upload Produk
 @endsection
 
 @section('customStyle')
-<link rel="stylesheet" type="text/css" href="{{ asset('css/public_home.css') }}" />
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"> -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/user_home.css') }}" />
 @endsection
 
 @section('content')
-<div class="container pt-3">
+<div class="container pt-5 mt-5">
     <div class="card shadow mb-4">
         <div class="card-body mb-5 mt-3">
+            <a href="{{ url('participant/product/upload') }}" class="btn btn-primary mb-3"><i class="fas fa-plus"></i> Tambah Produk</a>
             <div class="row row-cols-1 row-cols-md-3">
                 @foreach($products as $product)
                 <div class="col-lg-3 col-md-4 col-sm-6 float-left mb-3">
@@ -20,7 +20,7 @@ Produk PKKP
                             <img src="{{ asset('data_file/product/'.$product->image) }}" class="card-img" alt="ea">
                         </div>
                         <div class="card-body">
-                            <a href="/view_product/{{ $product->id }}" class="stretched-link text-decoration-none text-secondary">
+                            <a href="{{ url('/participant/product/'.$product->id) }}" class="stretched-link text-decoration-none text-secondary">
                                 <h5 class="card-title text-dark">{{ $product->name }}</h5>
                                 <div class="d-flex justify-content-between">
                                     <p class="card-text">{{ $product->category }} <br>   {{ $product->sub_category }}</p>
@@ -35,5 +35,4 @@ Produk PKKP
         </div>
     </div>
 </div>
-
 @endsection

@@ -67,10 +67,10 @@ class ParticipantController extends Controller
         /**
             NEED CHANGE ATTENDANCE START DATE
          */
-        $date_last = '2020-07-04';
+        $date_last = '2021-03-22';
 
         if ($date_now_format < $date_last){
-            return redirect('/participant/absent')->with('status', 'not-open')->with(compact('attend_time'));
+            return redirect('/participant/absent')->with('status', 'not-open-date')->with(compact('attend_time'));
         }
 
         if ($time_now < $attend_time){

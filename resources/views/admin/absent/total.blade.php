@@ -92,7 +92,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Data Peserta</h6>
                 </div>
                 <div class="card-body">
-                    {{-- <a href="{{ url('/admin/participant/create') }}" class="btn btn-primary mb-3">Tambah Peserta</a> --}}
+                    <a href="{{ url('/admin/total/export') }}" class="btn btn-success mb-3">Export Excel</a>
                     <div class="table table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>

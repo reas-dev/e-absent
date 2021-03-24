@@ -11,7 +11,7 @@ Detail Produk
 @section('content')
 <div class="container card-detail rounded shadow">
     <div class="row justify-content-center">
-        <div class="col-sm-10">
+        <div class="col-sm-8">
             <div class="col-md mb-4">
                 <img src="{{ asset('data_file/product/'.$product->image) }}" class="container-img col rounded" alt="ea">
             </div>
@@ -29,7 +29,7 @@ Detail Produk
                     <div class="col col-md-3">Lokasi</div>
                     <div class="col">{{ $location->place }}</div>
                 </div>
-                <a href="/external_url/{{ $product->url }}" class="btn btn-primary mb-4">Link Produk</a>
+                <a href="https://{{ $product->url }}" target="_blank" class="btn btn-primary mb-4">Link Produk</a>
                 <div class="h5 mb-1 text-gray-800">Deskripsi</div>
                 <p class="bg-pkkp text-white px-3 rounded">{{ $product->description }}</p>
             </div>

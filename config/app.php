@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Victorybiz\GeoIPLocation\GeoIPLocationServiceProvider::class,
         Madnest\Madzipper\MadzipperServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -229,8 +230,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'GeoIPLocation' => Victorybiz\GeoIPLocation\Facades\GeoIPLocationFacade::class,
-        'Madzipper' => Madnest\Madzipper\Madzipper::class
-
+        'Madzipper' => Madnest\Madzipper\Madzipper::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

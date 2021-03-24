@@ -20,6 +20,27 @@ class PublicController extends Controller
 
         return view('public.index', compact('products', 'categories', 'places'));
     }
+    public function index2()
+    {
+        /** @var App\User $Auth */
+        if (Auth::user() != null) {
+            if (Auth::user()->isAdmin()) {
+                return redirect('/admin');
+            }
+            elseif (Auth::user()->isAuth()) {
+                return redirect('/participant');
+            }
+        }
+        else{
+            $products = Product::get();
+            $categories = $products->unique('category'); // ISI DROPDOWN KNAVBAR ATEGORI (DINAMIS)
+
+            $participants = Participant::get();
+            $places = $participants->unique('place'); // ISI DROPDOWN NAVBAR LOKASI (DINAMIS)
+
+            return view('public.index', compact('products', 'categories', 'places'));
+        }
+    }
 
     public function show($id)
     {
@@ -29,9 +50,9 @@ class PublicController extends Controller
         $locations = Participant::get();
         $places = $locations->unique('place'); // ISI DROPDOWN NAVBAR LOKASI (DINAMIS)
 
-        $product = Product::where('participant_id', '=', $id)->first(); // PRODUK YANG DIKLIK (BERDASARKAN PARTICIPANT ID)
+        $product = Product::find($id); // PRODUK YANG DIKLIK (BERDASARKAN PARTICIPANT ID)
         //dd($product);
-        $location = Participant::where('user_id', '=', $id)->first(); // LOKASI DARI PARTICIPANT
+        $location = Participant::where('user_id', '=', $product->participant_id)->first(); // LOKASI DARI PARTICIPANT
 
         return view('public.show', compact('product', 'location', 'categories', 'places'));
     }

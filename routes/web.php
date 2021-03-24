@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/login');
-});
+// Route::get('/', function () {
+//     return redirect('/login');
+// });
+
+
+Route::get('/', 'PublicController@index2');
 
 Auth::routes();
 
@@ -38,9 +41,11 @@ Route::group(['middleware' => ['auth', 'participant'], 'prefix' => 'participant'
     });
     Route::prefix('product')->group(function () {
         Route::get('/', 'ProductController@show');
-        Route::post('/', 'ProductController@create');
-        Route::put('/', 'ProductController@edit');
-        Route::get('/edit', 'ProductController@showEdit');
+        Route::get('/upload', 'ProductController@showUpload');
+        Route::post('/upload', 'ProductController@create');
+        Route::get('/{id}', 'ProductController@showDetail');
+        Route::put('/{id}', 'ProductController@edit');
+        Route::get('/{id}/edit', 'ProductController@showEdit');
         Route::get('/detail', 'ParticipantController@showParticipantDetail');
     });
     Route::prefix('report')->group(function () {
@@ -52,10 +57,13 @@ Route::group(['middleware' => ['auth', 'participant'], 'prefix' => 'participant'
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('/daily', 'AdminController@show');
     Route::get('/total', 'AdminController@showAllAttend');
+    Route::get('/total/export', 'AdminController@exportExcel');
 
 
     Route::get('/', 'AdminController@showList');
     Route::get('/product', 'AdminController@showProduct');
+    Route::get('/product/{nik}', 'AdminController@showProductDetail');
+    Route::delete('/product/{nik}/{id}', 'AdminController@productDelete');
     Route::get('/report', 'AdminController@showReport');
     Route::get('/report/{nik}', 'AdminController@showReportDetail');
     Route::put('/report/{nik}', 'AdminController@reportDownloadAllOnePerson');

@@ -14,11 +14,23 @@ class ProductController extends Controller
         $id = Auth::user()->id;
         $participant = Participant::select(['code', 'id'])->where('user_id', $id)->first();
 
-        $product = Product::where('participant_id', $participant->id)->first();
-        if ($product != null) {
-            return redirect('/participant/product/edit');
-        }
+        $products = Product::where('participant_id', $participant->id)->orderBy('created_at', 'asc')->get();
+
+        return view('participant.product-list')->with(compact(['products']));
+    }
+
+    public function showUpload()
+    {
         return view('participant.upload-product');
+    }
+
+    public function showDetail($id)
+    {
+        $product = Product::find($id); // PRODUK YANG DIKLIK (BERDASARKAN PARTICIPANT ID)
+
+        $location = Participant::where('user_id', '=', $product->participant_id)->first(); // LOKASI DARI PARTICIPANT
+
+        return view('participant.product-show', compact('product', 'location'));
     }
 
     public function create(Request $request)
@@ -29,16 +41,11 @@ class ProductController extends Controller
             'sub_category' => 'required|min:3|max:50',
             'promotion' => 'required|min:3',
             'image' => 'required|file|mimes:jpeg,png,jpg|max:308',
-            'description' => 'required|min:3|max:250'
+            'description' => 'required|min:3|max:1500'
         ]);
 
         $id = Auth::user()->id;
         $participant = Participant::select(['code', 'id'])->where('user_id', $id)->first();
-
-        $produk = Product::where('participant_id', $participant->id)->first();
-        if ($produk != null) {
-            return redirect('/home')->with('status', 'has-submit');
-        }
 
         $file = $request->file('image');
 
@@ -62,31 +69,32 @@ class ProductController extends Controller
         return redirect('/home')->with('status', 'product-done');
     }
 
-    public function showEdit()
+    public function showEdit($id)
     {
-        $id = Auth::user()->id;
-        $participant = Participant::select(['code', 'id'])->where('user_id', $id)->first();
-
-        $product = Product::where('participant_id', $participant->id)->first();
+        $participant = Participant::select(['code', 'id'])->where('user_id', Auth::user()->id)->first();
+        $product = Product::where('id', $id)->where('participant_id', $participant->id)->first();
         if ($product != null) {
             return view('participant.upload-product-edit')->with(compact(['product']));
         }
         return redirect('/participant/product');
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|min:3|max:50',
             'category' => 'required',
             'sub_category' => 'required|min:3|max:50',
             'promotion' => 'required|min:3',
-            'description' => 'required|min:3|max:250'
+            'description' => 'required|min:3|max:1500'
         ]);
-        $id = Auth::user()->id;
-        $participant = Participant::select(['code', 'id'])->where('user_id', $id)->first();
+        $user_id = Auth::user()->id;
+        $participant = Participant::select(['code', 'id'])->where('user_id', $user_id)->first();
 
-        $product = Product::where('participant_id', $participant->id)->first();
+        $product = Product::where('id', $id)->where('participant_id', $participant->id)->first();
+        if ($product == null) {
+            return redirect('/participant/product');
+        }
         $product->update([
             'name' => $request->name,
             'category' => $request->category,
@@ -95,6 +103,6 @@ class ProductController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect('/participant/product/edit')->with('status', 'product-edit-done');
+        return redirect('/participant/product/'.$id.'/edit')->with('status', 'product-edit-done');
     }
 }

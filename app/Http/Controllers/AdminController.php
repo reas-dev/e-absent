@@ -12,13 +12,22 @@ use App\TimeStatus;
 use App\Participant;
 use App\Report;
 use App\User;
+use App\Product;
+use Illuminate\Support\Facades\Auth;
 
 use ZipArchive;
 use Madnest\Madzipper\Madzipper;
 
+use App\Exports\ReportExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class AdminController extends Controller
 {
     public function show(){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $date_now = Carbon::now();
 
         $day = $date_now->day;
@@ -57,6 +66,10 @@ class AdminController extends Controller
 
     // Attend Time Settings
     public function showAttendTimeSet(){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $time_status = TimeStatus::first();
         $hour = substr($time_status->attend, 0, 2);
         $minute = substr($time_status->attend, 3, 2);
@@ -68,6 +81,10 @@ class AdminController extends Controller
     }
 
     public function attendTimeSet(Request $request){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $request->validate([
             'hour' => 'required|min:0|max:24',
             'minute' => 'required|min:0|max:59',
@@ -95,6 +112,10 @@ class AdminController extends Controller
 
     // Late Time Settings
     public function showLateTimeSet(){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $time_status = TimeStatus::first();
         $hour = substr($time_status->late, 0, 2);
         $minute = substr($time_status->late, 3, 2);
@@ -106,6 +127,10 @@ class AdminController extends Controller
     }
 
     public function lateTimeSet(Request $request){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $request->validate([
             'hour' => 'required|min:0|max:24',
             'minute' => 'required|min:0|max:59',
@@ -132,6 +157,10 @@ class AdminController extends Controller
     }
 
     public function invalid($id){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $attendance = Attendance::where('id', $id)->first();
         $attendance->update([
             'last_status' => $attendance->status,
@@ -141,6 +170,10 @@ class AdminController extends Controller
     }
 
     public function uninvalid($id){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $attendance = Attendance::where('id', $id)->first();
         if($attendance->last_status == null){
             return redirect('/admin');
@@ -153,6 +186,10 @@ class AdminController extends Controller
     }
 
     public function showMapWithSamePlace($place){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $date_now = Carbon::now();
 
         $day = $date_now->day;
@@ -190,13 +227,17 @@ class AdminController extends Controller
     }
 
     public function showAllAttend(){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $date_now = Carbon::now()->format('Y-m-d');
 
 
         /**
             NEED CHANGE ATTENDANCE START DATE
          */
-        $date_last = '2020-07-04';
+        $date_last = '2021-03-22';
 
         $participants = Participant::all();
         foreach ($participants as $participant) {
@@ -272,6 +313,10 @@ class AdminController extends Controller
       }
 
       public function showAdminParticipantDetail($month, $year, $nik){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $participant = Participant::where('nik', $nik)->firstOrFail();
         $attendances = Attendance::orderBy('day', 'ASC')->select('id', 'participant_id', 'day', 'month', 'year', 'status')->where('participant_id', $participant->id)->where('month', $month)->where('year', $year)->get()->toArray();
         $date_format = $year.'-'.$month.'-1';
@@ -307,16 +352,24 @@ class AdminController extends Controller
     }
 
     public function showList(){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $participants = Participant::with('user')->get();
 
         return view('admin.index')->with(compact(['participants']));
     }
 
     public function showProduct(){
-        $participants = Participant::with('product')->get();
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
+        $participants = Participant::with('user')->with('products')->get();
         $i = 0;
         foreach ($participants as $participant) {
-            if ($participant->product != null) {
+            if ($products_count = $participant->products()->count() != null) {
                 $i += 1;
             }
         }
@@ -328,6 +381,10 @@ class AdminController extends Controller
     }
 
     public function showReport(){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $participants = Participant::with('user')->with('reports')->get();
         $i = 0;
         foreach ($participants as $participant) {
@@ -342,12 +399,30 @@ class AdminController extends Controller
     }
 
     public function showReportDetail($nik){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $participant = Participant::with('user')->with('reports')->where('nik', $nik)->first();
 
         return view('admin.report.detail')->with(compact(['participant']));
     }
 
+    public function showProductDetail($nik){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
+        $participant = Participant::with('user')->with('products')->where('nik', $nik)->first();
+
+        return view('admin.product.detail')->with(compact(['participant']));
+    }
+
     public function reportDownload($nik, $id){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $participant = Participant::select(['id','code'])->where('nik', $nik)->first();
         $report = Report::where('participant_id', $participant->id)->where('id', $id)->first();
         if ($report == null){
@@ -365,6 +440,10 @@ class AdminController extends Controller
     }
 
     public function reportDownloadAllOnePerson($nik){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $participant = Participant::select(['id','code'])->where('nik', $nik)->first();
         if($participant->reports->isEmpty()){
             return redirect('/admin/report/'.$nik);
@@ -384,6 +463,10 @@ class AdminController extends Controller
     }
 
     public function reportDownloadAll(){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $tujuan_download = 'data_file/report/';
         $tujuan = public_path().'/'.$tujuan_download;
 
@@ -399,6 +482,10 @@ class AdminController extends Controller
 
     //destroy
     function reportDelete($nik, $id){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
         $participant = Participant::select(['id','code'])->where('nik', $nik)->first();
         $report = Report::where('participant_id', $participant->id)->where('id', $id)->first();
         if ($report == null){
@@ -407,5 +494,25 @@ class AdminController extends Controller
 
         Report::destroy($report->id);
         return redirect()->back()->with('status', 'Data Berhasil Dihapus');
+    }
+
+    //destroy
+    function productDelete($nik, $id){
+        /** @var App\User $Auth */
+        if (!Auth::user()->isAdmin()) {
+            return abort(403, 'Anda tidak memiliki akses');
+        }
+        $participant = Participant::select(['id','code'])->where('nik', $nik)->first();
+        $product = Product::where('participant_id', $participant->id)->where('id', $id)->first();
+        if ($product == null){
+            return redirect()->back();
+        }
+
+        Product::destroy($product->id);
+        return redirect()->back()->with('status', 'Data Berhasil Dihapus');
+    }
+
+    public function exportExcel(){
+        return Excel::download(new ReportExport, 'Laporan_bulanan.xlsx');
     }
 }

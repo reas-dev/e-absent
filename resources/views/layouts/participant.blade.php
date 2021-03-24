@@ -142,6 +142,16 @@
             timer: 1000
         })
     </script>
+    @elseif (Session::has('status') && Session::get('status') == 'not-open-date')
+    <script>
+        Swal.fire({
+            icon: 'info',
+            title: 'Maaf!',
+            text: 'Absensi dibuka 22 Maret 2021',
+            showConfirmButton: false,
+            timer: 1000
+        })
+    </script>
     @elseif (Session::has('status') && Session::get('status') == 'done')
     <script>
         Swal.fire({

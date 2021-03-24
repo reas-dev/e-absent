@@ -45,7 +45,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="sample-form mx-3 my-5">
-                                <form method="POST" action="{{ url('/participant/product') }}" enctype="multipart/form-data">
+                                <form method="POST" action="{{ url('/participant/product/'.$product->id) }}" enctype="multipart/form-data">
                                 @csrf
                                 @method('put')
                                     <div class="form-icon">
@@ -127,7 +127,7 @@
                                         <div class="row mt-3">
                                             <div class="col text-center">
                                                 <button type="submit" class="btn izin">Edit</button>
-                                                <a href="{{ url('/home') }}" class="btn hadir bg-secondary">Kembali</a>
+                                                <a href="{{ url('/participant/product/'.$product->id) }}" class="btn hadir bg-secondary">Kembali</a>
                                             </div>
                                         </div>
                                     </div>

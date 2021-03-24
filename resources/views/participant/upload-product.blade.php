@@ -11,7 +11,7 @@
 <div class="row h-100 mx-auto">
     <div class="col my-auto h-100">
         <div class="registration-form my-auto">
-        <form method="POST" action="{{ url('/participant/product') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('/participant/product/upload') }}" enctype="multipart/form-data">
         @csrf
         @method('post')
             <div class="form-icon">

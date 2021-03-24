@@ -30,9 +30,9 @@ class Participant extends Model
     /**
      * Get the product for the blog post.
      */
-    public function product()
+    public function products()
     {
-        return $this->hasOne('App\Product', 'participant_id');
+        return $this->hasMany('App\Product', 'participant_id');
     }
 
 
